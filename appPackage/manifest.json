@@ -1,49 +1,36 @@
 {
-	"$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.23/MicrosoftTeams.schema.json",
-	"version": "1.0.0",
-	"manifestVersion": "1.22",
-	"id": "${{TEAMS_APP_ID}}",
-	"name": {
-		"short": "Team Dashboard",
-		"full": "Daily Info Hub: Welcome message, info of the day, and dashboard"
-	},
-	"developer": {
-		"name": "SkyVacations",
-		"websiteUrl": "https://www.example.com",
-		"privacyUrl": "https://www.example.com/privacy",
-		"termsOfUseUrl": "https://www.example.com/terms"
-	},
-	"description": {
-		"short": "Static dashboard with daily info, team stats, and a welcome message.",
-		"full": "The Team Dashboard app provides a static tab inside Teams where you can see a \npersonalized welcome message, daily information of the day, and a quick overview \nof team stats. Perfect for keeping your team informed without any external services."
-	},
-	"icons": {
-		"outline": "outline.png",
-		"color": "color.png"
-	},
-	"accentColor": "#ffffff",
-	"staticTabs": [
-		{
-			"entityId": "dabd91be-e20c-41df-9444-6b16f5d9e0ce",
-			"name": "Dashboard",
-			"contentUrl": "${{TAB_ENDPOINT}}/tab",
-			"scopes": [
-				"personal",
-				"groupChat"
-			],
-			"context": [
-				"personalTab",
-				"channelTab",
-				"privateChatTab",
-				"meetingChatTab",
-				"meetingDetailsTab",
-				"meetingSidePanel",
-				"meetingStage",
-				"teamLevelApp"
-			]
-		}
-	],
-	"validDomains": [
-		"${{TAB_DOMAIN}}"
-	]
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.22/MicrosoftTeams.schema.json",
+  "version": "1.0.0",
+  "manifestVersion": "1.22",
+  "id": "9c1081dd-396d-48a4-8f7f-01a49e46e67c",
+  "name": {
+    "short": "Team Dashboard",
+    "full": "Daily Info Hub: Welcome message, info of the day, and dashboard"
+  },
+  "developer": {
+    "name": "SkyVacations",
+    "websiteUrl": "https://www.example.com",
+    "privacyUrl": "https://www.example.com/privacy",
+    "termsOfUseUrl": "https://www.example.com/terms"
+  },
+  "description": {
+    "short": "Static dashboard with daily info, team stats, and a welcome message.",
+    "full": "The Team Dashboard app provides a static tab inside Teams where you can see a personalized welcome message, daily information of the day, and a quick overview of team stats."
+  },
+  "icons": {
+    "outline": "outline.png",
+    "color": "color.png"
+  },
+  "accentColor": "#ffffff",
+  "staticTabs": [
+    {
+      "entityId": "teamDashboardTab",
+      "name": "Team Dashboard",
+      "contentUrl": "https://biscuitsandmayo.github.io/TeamDashboard/dashboard.html",
+      "websiteUrl": "https://biscuitsandmayo.github.io/TeamDashboard/dashboard.html",
+      "scopes": ["personal"],
+      "context": ["personalTab"]
+    }
+  ],
+  "validDomains": ["biscuitsandmayo.github.io"]
 }

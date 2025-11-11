@@ -2,36 +2,46 @@ name: Quote every 4 hours
 
 on:
   schedule:
-    - cron: "0 */4 * * *"     # every 4 hours (UTC)
-  workflow_dispatch:          # allow manual runs
+    - cron: "0 */4 * * *"  # runs every 4 hours (00:00, 04:00, 08:00, 12:00, 16:00, 20:00 UTC)
+  workflow_dispatch:         # allows manual runs from Actions tab
 
 permissions:
-  contents: write             # required to push commits
+  contents: write            # required for committing changes
 
 jobs:
   update-quote:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout default branch
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           persist-credentials: true
+          fetch-depth: 0
 
-      - name: Make data folder
+      - name: Ensure data folder exists
         run: mkdir -p static/data
 
-      - name: Fetch a quote (Quotable)
+      - name: Fetch random quote (ZenQuotes API)
         run: |
           set -e
-          curl -sSf https://api.quotable.io/random > static/data/quote.json
-          # Ensure JSON has only the fields we want (content + author)
-          cat static/data/quote.json | jq '{content: .content, author: .author, updatedAt: (now | todate)}' > static/data/quote.tmp
-          mv static/data/quote.tmp static/data/quote.json
+          sudo apt-get update -y
+          sudo apt-get install -y jq ca-certificates
+          sudo update-ca-certificates
 
-      - name: Commit & push if changed
+          echo "Fetching new quote..."
+          curl -sSf https://zenquotes.io/api/random > static/data/quote_raw.json
+
+          echo "Processing JSON..."
+          cat static/data/quote_raw.json | jq '.[0] | {content: .q, author: .a, updatedAt: (now | todate)}' > static/data/quote.json
+
+          echo "New quote.json content:"
+          cat static/data/quote.json
+
+      - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add static/data/quote.json
-          git diff --cached --quiet && echo "No changes to commit" || git commit -m "chore: refresh quote (4h)"
+          git diff --cached --quiet && echo "No changes to commit" || git commit -m "chore: refresh quote (auto 4h)"
           git push
